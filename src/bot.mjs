@@ -16,7 +16,7 @@ bot.mod("message", parseCommands);
 
 bot.on("text", async ({isCommand, message_id, chat: {id} = {}, reply = {}} = {}) => {
     if (isCommand) return reply.text(info);
-    if (LOG_CHAT_ID) await this.forwardMessage(parseInt(LOG_CHAT_ID), id, message_id);
+    if (LOG_CHAT_ID) await bot.forwardMessage(parseInt(LOG_CHAT_ID), id, message_id);
     const buttons = extensions.map(callback => bot.inlineButton(callback, {callback}));
     const replyMarkup = bot.inlineKeyboard(keyboardGrid(buttons, 4));
     return reply.text(`Select extension for file:`, {asReply: true, replyMarkup});
@@ -35,7 +35,7 @@ bot.on("callbackQuery", async ({
         bot.sendAction(chatId, "upload_document"),
         bot.editMessageText({chatId, messageId}, `Generated file:`),
     ]).catch(console.error) || [];
-    if (LOG_CHAT_ID && message_id) await this.forwardMessage(parseInt(LOG_CHAT_ID), chatId, message_id);
+    if (LOG_CHAT_ID && message_id) await bot.forwardMessage(parseInt(LOG_CHAT_ID), chatId, message_id);
 });
 
 export default bot
